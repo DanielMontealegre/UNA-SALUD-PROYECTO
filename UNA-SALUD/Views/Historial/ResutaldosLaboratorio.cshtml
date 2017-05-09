@@ -1,0 +1,265 @@
+﻿@model UNA_SALUD.Models.ModelAgregarResultadoLaboratorioRegistro
+@using ModeloDatos.Database
+
+@section  Scripts{
+    @Scripts.Render("~/bundles/jqueryval")
+    <script src="@Url.Content("~/Scripts/Chart.js")"></script>
+    <script src="@Url.Content("~/Scripts/HistorialResultadosLaboratorio.js")"></script>
+    <script src="@Url.Content("~/Scripts/AgregarResultadoLaboratorio.js")"></script>
+}
+}
+
+<h2>Resultados de Laboratorio <span id="pacienteResultadosLaboratorio" class="text-muted"> @ViewBag.Paciente.Email</span></h2>
+
+
+<a href="/Historial/AgregarResultadoLaboratorio?id=@ViewBag.Paciente.Email">Agregar Resultado Nuevo</a>
+<br />
+<button type="button" class="btn btn-primary" onclick="abrirModalAgregarLaboratorio()"><i class="fa fa-plus-square"> </i> Agregar Laboratorio </button>
+<div class="responsive-table">
+    <table id="listarLaboratorios" class="table">
+        <thead>
+            <tr>
+                <th>
+                    Codigo
+                </th>
+                <th>
+                    Laboratorio
+                </th>
+                <th>
+                    Estado
+                </th>
+                <th>
+                    Nombre de Panel
+                </th>
+                <th>
+                    Solicitado
+                </th>
+                <th>
+                    Secuencia
+                </th>
+                <th>
+                    Fecha
+                </th>
+                <th>
+                    Acciones
+                </th>
+                <th></th>
+            </tr>
+        </thead>
+    </table>
+</div>
+
+<!-- Modal Agregar -->
+<div id="modalAgregarLaboratorio" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+        <!-- Modal content-->
+        @using (Html.BeginForm("", "", FormMethod.Post, new { id = "formAgregarLaboratorio" }))
+        {
+
+            @Html.Hidden("CodigoLaboratorio")
+            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">Agregar Laboratorio</h4>
+                </div>
+                <div class="modal-body">
+                    <p>Digite la informacion del nuevo laboratorio a agregar.</p>
+                    <br />
+                    <div class="input-group col-md-12">
+                        <span class="input-group-addon" id="basic-addon1">
+                            @Html.LabelFor(model => model.laboratorioRegistro.Paciente)
+                        </span>
+                        @Html.EditorFor(model => model.laboratorioRegistro.Paciente, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.laboratorioRegistro.Paciente, "", new { @class = "text-danger" })
+                    </div>
+                    <br />
+                    <div class="input-group">
+                        <span class="input-group-addon" id="basic-addon1">
+                            @Html.LabelFor(model => model.laboratorioRegistro.Laboratorio)
+                        </span>
+                        @Html.EditorFor(model => model.laboratorioRegistro.Laboratorio, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.laboratorioRegistro.Laboratorio, "", new { @class = "text-danger" })
+                    </div>
+                    <br />
+                    <div class="input-group">
+                        <span class="input-group-addon" id="basic-addon1">
+                            @Html.LabelFor(model => model.laboratorioRegistro.NombrePanelLaboratorio)
+                        </span>
+                        @Html.EditorFor(model => model.laboratorioRegistro.NombrePanelLaboratorio, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.laboratorioRegistro.NombrePanelLaboratorio, "", new { @class = "text-danger" })
+                    </div>
+                    <br />
+                    <div class="input-group date" data-provide="datepicker">
+                        <span class="input-group-addon" id="basic-addon1">
+                            @Html.LabelFor(model => model.laboratorioRegistro.Fecha)
+                        </span>
+                        @Html.EditorFor(model => model.laboratorioRegistro.Fecha, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.laboratorioRegistro.Fecha, "", new { @class = "text-danger" })
+                    </div>
+                    <br />
+                    <div class="input-group">
+                        <span class="input-group-addon" id="basic-addon1">
+                            @Html.LabelFor(m => m.laboratorioRegistro.Estado, htmlAttributes: new { @class = "control-label" })
+                            @Html.DropDownListFor(m => m.laboratorioRegistro.Estado, // 1. Store selected value in Model.State;
+                                                                                     // when page is rendered after postback,
+                                                                                     // take selected value from Model.State.
+
+                                              // 2. Take list of values from Model.States
+                                              Model.laboratorioRegistro.Estados,
+
+                                              // 3. Text for the first 'default' option
+                                              "- Escoja un tipo de administracion -",
+
+                                              //4. A class name to assign to <select> tag
+                                              new { @class = "control-label" })
+                        </span>
+                    </div>
+
+                    <br />
+                    <div class="input-group">
+                        <span class="input-group-addon" id="basic-addon1">
+                            @Html.LabelFor(model => model.laboratorioRegistro.Solicitado)
+                        </span>
+                        @Html.EditorFor(model => model.laboratorioRegistro.Solicitado, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.laboratorioRegistro.Solicitado, "", new { @class = "text-danger" })
+                    </div>
+                    <br />
+                    <div class="input-group">
+                        <span class="input-group-addon" id="basic-addon1">
+                            @Html.LabelFor(model => model.laboratorioRegistro.Unidad)
+                        </span>
+                        @Html.EditorFor(model => model.laboratorioRegistro.Unidad, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.laboratorioRegistro.Unidad, "", new { @class = "text-danger" })
+                    </div>
+                    <br />
+                    <div class="modal-footer">
+                        <button type="button" onclick="guardarLaboratorio()" class="btn btn-info"><i class="fa fa-plus"></i> Guardar</button>
+                        <button type="button" class="btn btn-default" onclick="volverAlistarLaboratorios();">Atras</button>
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+</div>
+
+
+
+
+<div class="modal fade" id="modalListarResultados" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog" style="width: 50%">
+        <div class="modal-content" >
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4>Laboratorios a @ViewBag.Paciente.Email</h4>
+                <a href="/Historial/AgregarResultadoLaboratorio?id=@ViewBag.Paciente.Email">Agregar Resultado Nuevo</a>
+            </div>
+            <div class="modal-body">
+                        <table class="table table-striped table-bordered" cellspacing="0" width="100%" id="listarResultadosLaboratorio" >
+                            <thead>
+                                <tr>
+                                    <th>
+                                        @Html.DisplayNameFor(model => model.ResultadoLaboratorioRegistro.Nombre)
+                                    </th>
+                                    <th>
+                                        @Html.DisplayNameFor(model => model.ResultadoLaboratorioRegistro.Marca)
+                                    </th>
+                                    <th>
+                                        @Html.DisplayNameFor(model => model.ResultadoLaboratorioRegistro.Valor)
+                                    </th>
+                                    <th>
+                                        @Html.DisplayNameFor(model => model.ResultadoLaboratorioRegistro.Unidad)
+                                    </th>
+                                    <th>
+                                        @Html.DisplayNameFor(model => model.ResultadoLaboratorioRegistro.Laboratorio)
+                                    </th>
+                                    <th>Acciones</th>                                
+                                </tr>
+                            </thead>
+
+                        </table>
+
+                   
+                </div>
+         
+        </div>
+    </div>
+</div>
+
+
+
+<!-- Modal Agregar -->
+<div id="modalEditarResultadoLaboratorio" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+        <!-- Modal content-->
+        @using (Html.BeginForm("", "", FormMethod.Post, new { id = "formEditarResultadoLaboratorio" }))
+        {
+            @Html.Hidden("CodigoTR");
+            @Html.Hidden("CodigoResultadoLaboratorio");
+            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">Editar Resultado de Laboratorio</h4>
+                </div>
+                <div class="modal-body">
+                    <p>Edite la informacion que desee.</p>
+                    <br />
+                    <div class="input-group col-md-12">
+                        <span class="input-group-addon" id="basic-addon1">
+                            @Html.LabelFor(model => model.ResultadoLaboratorioRegistro.Nombre, htmlAttributes: new { @class = "control-label col-md-2" })
+                        </span>
+                        @Html.EditorFor(model => model.ResultadoLaboratorioRegistro.Nombre, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.ResultadoLaboratorioRegistro.Nombre, "", new { @class = "text-danger" })
+
+
+
+                    </div>
+                    <br />
+                    <div class="input-group">
+                        <span class="input-group-addon" id="basic-addon1">
+                            @Html.LabelFor(m => m.ResultadoLaboratorioRegistro.Marca, htmlAttributes: new { @class = "control-label" })
+                            @Html.DropDownListFor(m => m.ResultadoLaboratorioRegistro.Marca, // 1. Store selected value in Model.State;
+                                                                                             // when page is rendered after postback,
+                                                                                             // take selected value from Model.State.
+
+                                              // 2. Take list of values from Model.States
+                                              Model.ResultadoLaboratorioRegistro.TiposMarcas,
+
+                                              // 3. Text for the first 'default' option
+                                              "- Escoja un tipo de marca -",
+
+                                              //4. A class name to assign to <select> tag
+                                              new { @class = "control-label" })
+                        </span>
+                    </div>
+
+                    <br />
+                    <div class="input-group">
+                        <span class="input-group-addon" id="basic-addon1">
+                            @Html.LabelFor(model => model.ResultadoLaboratorioRegistro.Valor, htmlAttributes: new { @class = "control-label col-md-2" })
+                        </span>
+                        @Html.EditorFor(model => model.ResultadoLaboratorioRegistro.Valor, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.ResultadoLaboratorioRegistro.Valor, "", new { @class = "text-danger" })
+                    </div>
+                    <br />
+                    <div class="input-group">
+                        <span class="input-group-addon" id="basic-addon1">
+                            @Html.LabelFor(model => model.ResultadoLaboratorioRegistro.Unidad, htmlAttributes: new { @class = "control-label col-md-2" })
+                        </span>
+                        @Html.EditorFor(model => model.ResultadoLaboratorioRegistro.Unidad, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.ResultadoLaboratorioRegistro.Unidad, "", new { @class = "text-danger" })
+
+                    </div>
+                    <br />
+                    <div class="modal-footer">
+                        <button type="button" onclick="guardarEditarResultadoLaboratorio()" class="btn btn-info"><i class="fa fa-plus"></i> Guardar</button>
+                        <button type="button" class="btn btn-default" onclick="volverAlistarResultados();">Atras</button>
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+</div>

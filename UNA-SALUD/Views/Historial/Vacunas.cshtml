@@ -1,0 +1,254 @@
+﻿@model UNA_SALUD.Models.VacunaRegistro
+@using ModeloDatos.Database
+
+@section  Scripts{
+    @Scripts.Render("~/bundles/jqueryval")
+    <script src="@Url.Content("~/Scripts/HistorialVacunasScript.js")"></script>
+}
+
+<h2>Vacunas del paciente <span id="pacienteVacunas" class="text-muted"> @ViewBag.Paciente.Email</span></h2>
+
+<p>
+    <button type="button" class="btn btn-default" onclick="AbrilModalAgregarVacuna();">Agregar Vacuna</button>
+</p>
+<table class="table" id="listarVacunas">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Nombre)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.FechaRecepcion)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Administracion)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.NumeroSecuencia)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.EfectoSecundarios)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ParteCuerpo)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Detalle)
+            </th>
+            <th>Acciones</th>
+        </tr>
+    </thead>
+</table>
+
+<!-- Modals -->
+<!-- Modal Agregar -->
+<div id="modalAgregarVacuna" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+        <!-- Modal content-->
+        @using (Html.BeginForm("", "", FormMethod.Post, new { id = "formAgregarVacuna" }))
+        {
+
+            @Html.Hidden("Codigo")
+            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">Agregar Vacuna</h4>
+                </div>
+                <div class="modal-body">
+                    <p>Digite la informacion de la nueva vacuna a agregar.</p>
+                    <br />
+                    <div class="input-group col-md-12">
+                        <span class="input-group-addon" id="basic-addon1">
+                            @Html.LabelFor(model => model.Paciente)
+                        </span>
+                        @Html.EditorFor(model => model.Paciente, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.Paciente, "", new { @class = "text-danger" })
+                    </div>
+                    <br />
+                    <div class="input-group">
+                        <span class="input-group-addon" id="basic-addon1">
+                            @Html.LabelFor(model => model.Nombre)
+                        </span>
+                        @Html.EditorFor(model => model.Nombre, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.Nombre, "", new { @class = "text-danger" })
+                    </div>
+                    <br />
+                    <div class="input-group">
+                        <span class="input-group-addon" id="basic-addon1">
+                            @Html.LabelFor(model => model.FechaRecepcion)
+                        </span>
+                        @Html.EditorFor(model => model.FechaRecepcion, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.FechaRecepcion, "", new { @class = "text-danger" })
+                    </div>
+                    <br />
+                    <div class="form-group">
+                        @Html.LabelFor(m => m.Administracion)
+                        @Html.DropDownListFor(m => m.Administracion, // 1. Store selected value in Model.State;
+                                                                     // when page is rendered after postback,
+                                                                     // take selected value from Model.State.
+
+                                              // 2. Take list of values from Model.States
+                                              Model.Administraciones,
+
+                                              // 3. Text for the first 'default' option
+                                              "- Escoja un tipo de administracion -",
+
+                                              //4. A class name to assign to <select> tag
+                                              new { @class = "form-control" })
+                    </div>
+
+                    <br />
+                    <div class="input-group">
+                        <span class="input-group-addon" id="basic-addon1">
+                            @Html.LabelFor(model => model.NumeroSecuencia)
+                        </span>
+                        @Html.EditorFor(model => model.NumeroSecuencia, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.NumeroSecuencia, "", new { @class = "text-danger" })
+                    </div>
+                    <br />
+                    <div class="input-group">
+                        <span class="input-group-addon" id="basic-addon1">
+                            @Html.LabelFor(model => model.EfectoSecundarios)
+                        </span>
+                        @Html.EditorFor(model => model.EfectoSecundarios, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.EfectoSecundarios, "", new { @class = "text-danger" })
+                    </div>
+                    <br />
+                    <div class="input-group">
+                        <span class="input-group-addon" id="basic-addon1">
+                            @Html.LabelFor(model => model.ParteCuerpo)
+                        </span>
+                        @Html.EditorFor(model => model.ParteCuerpo, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.ParteCuerpo, "", new { @class = "text-danger" })
+                    </div>
+                    <br />
+                    <div class="input-group">
+                        <span class="input-group-addon" id="basic-addon1">
+                            @Html.LabelFor(model => model.Detalle)
+                        </span>
+                        @Html.EditorFor(model => model.Detalle, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.Detalle, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" onclick="guardarVacuna()" class="btn btn-info"><i class="fa fa-plus"></i> Guardar</button>
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                </div>
+            </div>
+        }
+    </div>
+</div>
+
+
+<!-- Modal Editar -->
+<div id="modalEditarVacuna" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+        <!-- Modal content-->
+
+
+        @using (Html.BeginForm("", "", FormMethod.Post, new { id = "formEditarVacuna" }))
+        {
+            @Html.Hidden("CodigoTR")
+            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">Editar Vacuna</h4>
+                </div>
+                <div class="modal-body">
+                    <p>Edite la informacion que desea de la vacuna.</p>
+                    <br />
+                    <div class="input-group col-md-12">
+                        <span class="input-group-addon" id="basic-addon1">
+                            @Html.LabelFor(model => model.Paciente)
+                        </span>
+                        @Html.EditorFor(model => model.Paciente, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.Paciente, "", new { @class = "text-danger" })
+                    </div>
+                    <br />
+                    <div class="input-group">
+                        <span class="input-group-addon" id="basic-addon1">
+                            @Html.LabelFor(model => model.Nombre)
+                        </span>
+                        @Html.EditorFor(model => model.Nombre, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.Nombre, "", new { @class = "text-danger" })
+                    </div>
+                    <br />
+                    <div class="input-group">
+                        <span class="input-group-addon" id="basic-addon1">
+                            @Html.LabelFor(model => model.FechaRecepcion)
+                        </span>
+                        @Html.EditorFor(model => model.FechaRecepcion, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.FechaRecepcion, "", new { @class = "text-danger" })
+                    </div>
+                    <br />
+                    <div class="form-group">
+                        @Html.LabelFor(m => m.Administracion)
+                        @Html.DropDownListFor(m => m.Administracion, // 1. Store selected value in Model.State;
+                                                                     // when page is rendered after postback,
+                                                                     // take selected value from Model.State.
+
+                                              // 2. Take list of values from Model.States
+                                              Model.Administraciones,
+
+                                              // 3. Text for the first 'default' option
+                                              "- Escoja un tipo de administracion -",
+
+                                              //4. A class name to assign to <select> tag
+                                              new { @class = "form-control" })
+                    </div>
+
+                    <br />
+                    <div class="input-group">
+                        <span class="input-group-addon" id="basic-addon1">
+                            @Html.LabelFor(model => model.NumeroSecuencia)
+                        </span>
+                        @Html.EditorFor(model => model.NumeroSecuencia, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.NumeroSecuencia, "", new { @class = "text-danger" })
+                    </div>
+                    <br />
+                    <div class="input-group">
+                        <span class="input-group-addon" id="basic-addon1">
+                            @Html.LabelFor(model => model.EfectoSecundarios)
+                        </span>
+                        @Html.EditorFor(model => model.EfectoSecundarios, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.EfectoSecundarios, "", new { @class = "text-danger" })
+                    </div>
+                    <br />
+                    <div class="input-group">
+                        <span class="input-group-addon" id="basic-addon1">
+                            @Html.LabelFor(model => model.ParteCuerpo)
+                        </span>
+                        @Html.EditorFor(model => model.ParteCuerpo, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.ParteCuerpo, "", new { @class = "text-danger" })
+                    </div>
+                    <br />
+                    <div class="input-group">
+                        <span class="input-group-addon" id="basic-addon1">
+                            @Html.LabelFor(model => model.Detalle)
+                        </span>
+                        @Html.EditorFor(model => model.Detalle, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.Detalle, "", new { @class = "text-danger" })
+                    </div>
+
+
+                    <div class="input-group col-md-12" style="display: none;">
+                        <span class="input-group-addon" id="basic-addon1">
+                            @Html.LabelFor(model => model.Codigo)
+                        </span>
+                        @Html.EditorFor(model => model.Codigo, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.Codigo, "", new { @class = "text-danger" })
+                    </div>
+
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" onclick="guardarEditarVacuna();" class="btn btn-info"><i class="fa fa-plus"></i> Guardar</button>
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                </div>
+            </div>
+        }
+    </div>
+</div>
+

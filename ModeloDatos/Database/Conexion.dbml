@@ -1,0 +1,302 @@
+﻿<?xml version="1.0" encoding="utf-8"?><Database Name="UNASALUD" Class="ConexionDataContext" xmlns="http://schemas.microsoft.com/linqtosql/dbml/2007">
+  <Connection Mode="AppSettings" ConnectionString="Data Source=PABLO\SQLEXPRESS;Initial Catalog=UNASALUD;Integrated Security=True" SettingsObjectName="ModeloDatos.Properties.Settings" SettingsPropertyName="UNASALUDConnectionString" Provider="System.Data.SqlClient" />
+  <Table Name="dbo.Afeccion" Member="Afeccion">
+    <Type Name="Afeccion">
+      <Column Name="Codigo" Type="System.Int64" DbType="BigInt NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="Paciente" Type="System.String" DbType="NVarChar(80) NOT NULL" CanBeNull="false" />
+      <Column Name="Nombre" Type="System.String" DbType="NVarChar(50) NOT NULL" CanBeNull="false" />
+      <Column Name="Estado" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="FechaInicio" Type="System.DateTime" DbType="Date NOT NULL" CanBeNull="false" />
+      <Column Name="FechaFin" Type="System.DateTime" DbType="Date" CanBeNull="true" />
+      <Column Name="Detalle" Type="System.String" DbType="Text" CanBeNull="true" UpdateCheck="Never" />
+      <Association Name="Paciente_Afeccion" Member="Paciente1" ThisKey="Paciente" OtherKey="Email" Type="Paciente" IsForeignKey="true" />
+      <Association Name="TipoEstadoAfeccion_Afeccion" Member="TipoEstadoAfeccion" ThisKey="Estado" OtherKey="Codigo" Type="TipoEstadoAfeccion" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.Alergia" Member="Alergia">
+    <Type Name="Alergia">
+      <Column Name="Codigo" Type="System.Int64" DbType="BigInt NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="Paciente" Type="System.String" DbType="NVarChar(80) NOT NULL" CanBeNull="false" />
+      <Column Name="Tipo" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="Reaccion" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="Tratamiento" Type="System.String" DbType="Text" CanBeNull="true" UpdateCheck="Never" />
+      <Column Name="Detalle" Type="System.String" DbType="Text" CanBeNull="true" UpdateCheck="Never" />
+      <Association Name="Paciente_Alergia" Member="Paciente1" ThisKey="Paciente" OtherKey="Email" Type="Paciente" IsForeignKey="true" />
+      <Association Name="TipoAlergia_Alergia" Member="TipoAlergia" ThisKey="Tipo" OtherKey="Codigo" Type="TipoAlergia" IsForeignKey="true" />
+      <Association Name="TipoReacción_Alergia" Member="TipoReacción" ThisKey="Reaccion" OtherKey="Codigo" Type="TipoReacción" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.Altura" Member="Altura">
+    <Type Name="Altura">
+      <Column Name="Codigo" Type="System.Int64" DbType="BigInt NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="Paciente" Type="System.String" DbType="NVarChar(80) NOT NULL" CanBeNull="false" />
+      <Column Name="Altura" Member="Altura1" Type="System.Double" DbType="Float NOT NULL" CanBeNull="false" />
+      <Column Name="Fecha" Type="System.DateTime" DbType="Date NOT NULL" CanBeNull="false" />
+      <Column Name="Detalle" Type="System.String" DbType="Text" CanBeNull="true" UpdateCheck="Never" />
+      <Association Name="Paciente_Altura" Member="Paciente1" ThisKey="Paciente" OtherKey="Email" Type="Paciente" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.Colesterol" Member="Colesterol">
+    <Type Name="Colesterol">
+      <Column Name="Codigo" Type="System.Int64" DbType="BigInt NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="Paciente" Type="System.String" DbType="NVarChar(80) NOT NULL" CanBeNull="false" />
+      <Column Name="LDL" Type="System.Double" DbType="Float NOT NULL" CanBeNull="false" />
+      <Column Name="HDL" Type="System.Double" DbType="Float NOT NULL" CanBeNull="false" />
+      <Column Name="Trigliceridos" Type="System.Double" DbType="Float NOT NULL" CanBeNull="false" />
+      <Column Name="Colesterol" Member="Colesterol1" Type="System.Double" DbType="Float NOT NULL" CanBeNull="false" />
+      <Column Name="Fecha" Type="System.DateTime" DbType="Date NOT NULL" CanBeNull="false" />
+      <Column Name="Detalle" Type="System.String" DbType="Text" CanBeNull="true" UpdateCheck="Never" />
+      <Association Name="Paciente_Colesterol" Member="Paciente1" ThisKey="Paciente" OtherKey="Email" Type="Paciente" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.ContactoEmergencia" Member="ContactoEmergencia">
+    <Type Name="ContactoEmergencia">
+      <Column Name="Codigo" Type="System.Int64" DbType="BigInt NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="Paciente" Type="System.String" DbType="NVarChar(80) NOT NULL" CanBeNull="false" />
+      <Column Name="Tipo" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="NombreContacto" Type="System.String" DbType="Text" CanBeNull="true" UpdateCheck="Never" />
+      <Column Name="Email" Type="System.String" DbType="Text" CanBeNull="true" UpdateCheck="Never" />
+      <Column Name="Telefono" Type="System.String" DbType="Text" CanBeNull="true" UpdateCheck="Never" />
+      <Column Name="Dirección" Type="System.String" DbType="Text" CanBeNull="true" UpdateCheck="Never" />
+      <Association Name="Paciente_ContactoEmergencia" Member="Paciente1" ThisKey="Paciente" OtherKey="Email" Type="Paciente" IsForeignKey="true" />
+      <Association Name="TipoContactoEmergencia_ContactoEmergencia" Member="TipoContactoEmergencia" ThisKey="Tipo" OtherKey="Codigo" Type="TipoContactoEmergencia" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.Glucemia" Member="Glucemia">
+    <Type Name="Glucemia">
+      <Column Name="Codigo" Type="System.Int64" DbType="BigInt NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="Paciente" Type="System.String" DbType="NVarChar(80) NOT NULL" CanBeNull="false" />
+      <Column Name="Medicion" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="Alimentacion" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="Fecha" Type="System.DateTime" DbType="Date NOT NULL" CanBeNull="false" />
+      <Column Name="Detalle" Type="System.String" DbType="Text" CanBeNull="true" UpdateCheck="Never" />
+      <Association Name="Paciente_Glucemia" Member="Paciente1" ThisKey="Paciente" OtherKey="Email" Type="Paciente" IsForeignKey="true" />
+      <Association Name="TipoAlimentacion_Glucemia" Member="TipoAlimentacion" ThisKey="Alimentacion" OtherKey="Codigo" Type="TipoAlimentacion" IsForeignKey="true" />
+      <Association Name="TipoMedicacion_Glucemia" Member="TipoMedicacion" ThisKey="Medicion" OtherKey="Codigo" Type="TipoMedicacion" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.Laboratorio" Member="Laboratorio">
+    <Type Name="Laboratorio">
+      <Column Name="Codigo" Type="System.Int64" DbType="BigInt NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="Paciente" Type="System.String" DbType="NVarChar(80) NOT NULL" CanBeNull="false" />
+      <Column Name="Estado" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="NombrePanelLaboratorio" Type="System.String" DbType="Text" CanBeNull="true" UpdateCheck="Never" />
+      <Column Name="Solicitado" Type="System.String" DbType="Text" CanBeNull="true" UpdateCheck="Never" />
+      <Column Name="Laboratorio" Member="Laboratorio1" Type="System.String" DbType="Text" CanBeNull="true" UpdateCheck="Never" />
+      <Column Name="NumeroSecuencia" Type="System.String" DbType="Text" CanBeNull="true" UpdateCheck="Never" />
+      <Column Name="Fecha" Type="System.DateTime" DbType="Date NOT NULL" CanBeNull="false" />
+      <Association Name="Laboratorio_ResultadoLaboratorio" Member="ResultadoLaboratorio" ThisKey="Codigo" OtherKey="Laboratorio" Type="ResultadoLaboratorio" />
+      <Association Name="Paciente_Laboratorio" Member="Paciente1" ThisKey="Paciente" OtherKey="Email" Type="Paciente" IsForeignKey="true" />
+      <Association Name="TipoEstadoLaboratorio_Laboratorio" Member="TipoEstadoLaboratorio" ThisKey="Estado" OtherKey="Codigo" Type="TipoEstadoLaboratorio" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.Paciente" Member="Paciente">
+    <Type Name="Paciente">
+      <Column Name="Email" Type="System.String" DbType="NVarChar(80) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="Nombre" Type="System.String" DbType="NVarChar(50) NOT NULL" CanBeNull="false" />
+      <Column Name="Apellido1" Type="System.String" DbType="NVarChar(50) NOT NULL" CanBeNull="false" />
+      <Column Name="Apellido2" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Column Name="Sexo" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
+      <Column Name="TipoSangre" Type="System.DateTime" DbType="DateTime2" CanBeNull="true" />
+      <Association Name="Paciente_Afeccion" Member="Afeccion" ThisKey="Email" OtherKey="Paciente" Type="Afeccion" />
+      <Association Name="Paciente_Alergia" Member="Alergia" ThisKey="Email" OtherKey="Paciente" Type="Alergia" />
+      <Association Name="Paciente_Altura" Member="Altura" ThisKey="Email" OtherKey="Paciente" Type="Altura" />
+      <Association Name="Paciente_Colesterol" Member="Colesterol" ThisKey="Email" OtherKey="Paciente" Type="Colesterol" />
+      <Association Name="Paciente_ContactoEmergencia" Member="ContactoEmergencia" ThisKey="Email" OtherKey="Paciente" Type="ContactoEmergencia" />
+      <Association Name="Paciente_Glucemia" Member="Glucemia" ThisKey="Email" OtherKey="Paciente" Type="Glucemia" />
+      <Association Name="Paciente_Laboratorio" Member="Laboratorio" ThisKey="Email" OtherKey="Paciente" Type="Laboratorio" />
+      <Association Name="Paciente_Peso" Member="Peso" ThisKey="Email" OtherKey="Paciente" Type="Peso" />
+      <Association Name="Paciente_PresionArterial" Member="PresionArterial" ThisKey="Email" OtherKey="Paciente" Type="PresionArterial" />
+      <Association Name="Paciente_Procedimiento" Member="Procedimiento" ThisKey="Email" OtherKey="Paciente" Type="Procedimiento" />
+      <Association Name="Paciente_Seguro" Member="Seguro" ThisKey="Email" OtherKey="Paciente" Type="Seguro" />
+      <Association Name="Paciente_Vacuna" Member="Vacuna" ThisKey="Email" OtherKey="Paciente" Type="Vacuna" />
+      <Association Name="Paciente_Medicamento" Member="Medicamento" ThisKey="Email" OtherKey="Paciente" Type="Medicamento" />
+    </Type>
+  </Table>
+  <Table Name="dbo.Peso" Member="Peso">
+    <Type Name="Peso">
+      <Column Name="Codigo" Type="System.Int64" DbType="BigInt NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="Paciente" Type="System.String" DbType="NVarChar(80) NOT NULL" CanBeNull="false" />
+      <Column Name="Peso" Member="Peso1" Type="System.Double" DbType="Float NOT NULL" CanBeNull="false" />
+      <Column Name="Fecha" Type="System.DateTime" DbType="Date NOT NULL" CanBeNull="false" />
+      <Column Name="Detalle" Type="System.String" DbType="Text" CanBeNull="true" UpdateCheck="Never" />
+      <Association Name="Paciente_Peso" Member="Paciente1" ThisKey="Paciente" OtherKey="Email" Type="Paciente" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.PresionArterial" Member="PresionArterial">
+    <Type Name="PresionArterial">
+      <Column Name="Codigo" Type="System.Int64" DbType="BigInt NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="Paciente" Type="System.String" DbType="NVarChar(80) NOT NULL" CanBeNull="false" />
+      <Column Name="Sistolica" Type="System.Double" DbType="Float NOT NULL" CanBeNull="false" />
+      <Column Name="Diastolica" Type="System.Double" DbType="Float NOT NULL" CanBeNull="false" />
+      <Column Name="Pulso" Type="System.Double" DbType="Float NOT NULL" CanBeNull="false" />
+      <Column Name="RitmoIrregular" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
+      <Column Name="Fecha" Type="System.DateTime" DbType="Date NOT NULL" CanBeNull="false" />
+      <Column Name="Detalle" Type="System.String" DbType="Text" CanBeNull="true" UpdateCheck="Never" />
+      <Association Name="Paciente_PresionArterial" Member="Paciente1" ThisKey="Paciente" OtherKey="Email" Type="Paciente" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.Procedimiento" Member="Procedimiento">
+    <Type Name="Procedimiento">
+      <Column Name="Codigo" Type="System.Int64" DbType="BigInt NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="Paciente" Type="System.String" DbType="NVarChar(80) NOT NULL" CanBeNull="false" />
+      <Column Name="Procedimiento" Member="Procedimiento1" Type="System.String" DbType="Text" CanBeNull="true" UpdateCheck="Never" />
+      <Column Name="UbicacionAnatomica" Type="System.String" DbType="Text" CanBeNull="true" UpdateCheck="Never" />
+      <Column Name="Motivo" Type="System.String" DbType="Text" CanBeNull="true" UpdateCheck="Never" />
+      <Column Name="Fecha" Type="System.DateTime" DbType="Date NOT NULL" CanBeNull="false" />
+      <Column Name="Detalle" Type="System.String" DbType="Text" CanBeNull="true" UpdateCheck="Never" />
+      <Association Name="Paciente_Procedimiento" Member="Paciente1" ThisKey="Paciente" OtherKey="Email" Type="Paciente" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.ResultadoLaboratorio" Member="ResultadoLaboratorio">
+    <Type Name="ResultadoLaboratorio">
+      <Column Name="Codigo" Type="System.Int64" DbType="BigInt NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="Laboratorio" Type="System.Int64" DbType="BigInt NOT NULL" CanBeNull="false" />
+      <Column Name="Marca" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="Nombre" Type="System.String" DbType="Text" CanBeNull="true" UpdateCheck="Never" />
+      <Column Name="Valor" Type="System.String" DbType="Text" CanBeNull="true" UpdateCheck="Never" />
+      <Column Name="Unidad" Type="System.String" DbType="Text" CanBeNull="true" UpdateCheck="Never" />
+      <Association Name="Laboratorio_ResultadoLaboratorio" Member="Laboratorio1" ThisKey="Laboratorio" OtherKey="Codigo" Type="Laboratorio" IsForeignKey="true" />
+      <Association Name="TipoMarca_ResultadoLaboratorio" Member="TipoMarca" ThisKey="Marca" OtherKey="Codigo" Type="TipoMarca" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.Seguro" Member="Seguro">
+    <Type Name="Seguro">
+      <Column Name="Codigo" Type="System.Int64" DbType="BigInt NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="Paciente" Type="System.String" DbType="NVarChar(80) NOT NULL" CanBeNull="false" />
+      <Column Name="Cobertura" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="Principal" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
+      <Column Name="IdentificadorAbonado" Type="System.String" DbType="Text" CanBeNull="true" UpdateCheck="Never" />
+      <Column Name="FechaInicio" Type="System.DateTime" DbType="Date" CanBeNull="true" />
+      <Column Name="FechaFin" Type="System.DateTime" DbType="Date" CanBeNull="true" />
+      <Column Name="Detalle" Type="System.String" DbType="Text" CanBeNull="true" UpdateCheck="Never" />
+      <Association Name="Paciente_Seguro" Member="Paciente1" ThisKey="Paciente" OtherKey="Email" Type="Paciente" IsForeignKey="true" />
+      <Association Name="TipoCobertura_Seguro" Member="TipoCobertura" ThisKey="Cobertura" OtherKey="Codigo" Type="TipoCobertura" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.TipoAdministracion" Member="TipoAdministracion">
+    <Type Name="TipoAdministracion">
+      <Column Name="Codigo" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="Descripcion" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Association Name="TipoAdministracion_Medicamento" Member="Medicamento" ThisKey="Codigo" OtherKey="Administracion" Type="Medicamento" />
+    </Type>
+  </Table>
+  <Table Name="dbo.TipoAdministracionVacuna" Member="TipoAdministracionVacuna">
+    <Type Name="TipoAdministracionVacuna">
+      <Column Name="Codigo" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="Descripcion" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Association Name="TipoAdministracionVacuna_Vacuna" Member="Vacuna" ThisKey="Codigo" OtherKey="Administracion" Type="Vacuna" />
+    </Type>
+  </Table>
+  <Table Name="dbo.TipoAlergia" Member="TipoAlergia">
+    <Type Name="TipoAlergia">
+      <Column Name="Codigo" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="Descripcion" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Association Name="TipoAlergia_Alergia" Member="Alergia" ThisKey="Codigo" OtherKey="Tipo" Type="Alergia" />
+    </Type>
+  </Table>
+  <Table Name="dbo.TipoAlimentacion" Member="TipoAlimentacion">
+    <Type Name="TipoAlimentacion">
+      <Column Name="Codigo" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="Descripcion" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Association Name="TipoAlimentacion_Glucemia" Member="Glucemia" ThisKey="Codigo" OtherKey="Alimentacion" Type="Glucemia" />
+    </Type>
+  </Table>
+  <Table Name="dbo.TipoCobertura" Member="TipoCobertura">
+    <Type Name="TipoCobertura">
+      <Column Name="Codigo" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="Descripcion" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Association Name="TipoCobertura_Seguro" Member="Seguro" ThisKey="Codigo" OtherKey="Cobertura" Type="Seguro" />
+    </Type>
+  </Table>
+  <Table Name="dbo.Vacuna" Member="Vacuna">
+    <Type Name="Vacuna">
+      <Column Name="Codigo" Type="System.Int64" DbType="BigInt NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="Paciente" Type="System.String" DbType="NVarChar(80) NOT NULL" CanBeNull="false" />
+      <Column Name="Nombre" Type="System.String" DbType="NVarChar(50) NOT NULL" CanBeNull="false" />
+      <Column Name="FechaRecepcion" Type="System.DateTime" DbType="Date NOT NULL" CanBeNull="false" />
+      <Column Name="Administracion" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="NumeroSecuencia" Type="System.String" DbType="Text" CanBeNull="true" UpdateCheck="Never" />
+      <Column Name="EfectoSecundarios" Type="System.String" DbType="Text" CanBeNull="true" UpdateCheck="Never" />
+      <Column Name="ParteCuerpo" Type="System.String" DbType="Text" CanBeNull="true" UpdateCheck="Never" />
+      <Column Name="Detalle" Type="System.String" DbType="Text" CanBeNull="true" UpdateCheck="Never" />
+      <Association Name="TipoAdministracionVacuna_Vacuna" Member="TipoAdministracionVacuna" ThisKey="Administracion" OtherKey="Codigo" Type="TipoAdministracionVacuna" IsForeignKey="true" />
+      <Association Name="Paciente_Vacuna" Member="Paciente1" ThisKey="Paciente" OtherKey="Email" Type="Paciente" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.TipoReacción" Member="TipoReacción">
+    <Type Name="TipoReacción">
+      <Column Name="Codigo" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="Descripcion" Type="System.String" DbType="NVarChar(100)" CanBeNull="true" />
+      <Association Name="TipoReacción_Alergia" Member="Alergia" ThisKey="Codigo" OtherKey="Reaccion" Type="Alergia" />
+    </Type>
+  </Table>
+  <Table Name="dbo.TipoMarca" Member="TipoMarca">
+    <Type Name="TipoMarca">
+      <Column Name="Codigo" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="Descripcion" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Association Name="TipoMarca_ResultadoLaboratorio" Member="ResultadoLaboratorio" ThisKey="Codigo" OtherKey="Marca" Type="ResultadoLaboratorio" />
+    </Type>
+  </Table>
+  <Table Name="dbo.TipoMedicacion" Member="TipoMedicacion">
+    <Type Name="TipoMedicacion">
+      <Column Name="Codigo" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="Descripcion" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Association Name="TipoMedicacion_Glucemia" Member="Glucemia" ThisKey="Codigo" OtherKey="Medicion" Type="Glucemia" />
+    </Type>
+  </Table>
+  <Table Name="dbo.TipoEstadoLaboratorio" Member="TipoEstadoLaboratorio">
+    <Type Name="TipoEstadoLaboratorio">
+      <Column Name="Codigo" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="Descripcion" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Association Name="TipoEstadoLaboratorio_Laboratorio" Member="Laboratorio" ThisKey="Codigo" OtherKey="Estado" Type="Laboratorio" />
+    </Type>
+  </Table>
+  <Table Name="dbo.TipoEstadoAfeccion" Member="TipoEstadoAfeccion">
+    <Type Name="TipoEstadoAfeccion">
+      <Column Name="Codigo" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="Descripcion" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Association Name="TipoEstadoAfeccion_Afeccion" Member="Afeccion" ThisKey="Codigo" OtherKey="Estado" Type="Afeccion" />
+    </Type>
+  </Table>
+  <Table Name="dbo.TipoDosis" Member="TipoDosis">
+    <Type Name="TipoDosis">
+      <Column Name="Codigo" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="Descripcion" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Association Name="TipoDosis_Medicamento" Member="Medicamento" ThisKey="Codigo" OtherKey="Dosis" Type="Medicamento" />
+    </Type>
+  </Table>
+  <Table Name="dbo.TipoContactoEmergencia" Member="TipoContactoEmergencia">
+    <Type Name="TipoContactoEmergencia">
+      <Column Name="Codigo" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="Descripcion" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Association Name="TipoContactoEmergencia_ContactoEmergencia" Member="ContactoEmergencia" ThisKey="Codigo" OtherKey="Tipo" Type="ContactoEmergencia" />
+    </Type>
+  </Table>
+  <Table Name="dbo.TipoConcentracion" Member="TipoConcentracion">
+    <Type Name="TipoConcentracion">
+      <Column Name="Codigo" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="Descripcion" Type="System.String" DbType="NVarChar(100)" CanBeNull="true" />
+      <Association Name="TipoConcentracion_Medicamento" Member="Medicamento" ThisKey="Codigo" OtherKey="Concentracion" Type="Medicamento" />
+    </Type>
+  </Table>
+  <Table Name="dbo.Medicamento" Member="Medicamento">
+    <Type Name="Medicamento">
+      <Column Name="Codigo" Type="System.Int64" DbType="BigInt NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="Paciente" Type="System.String" DbType="NVarChar(80) NOT NULL" CanBeNull="false" />
+      <Column Name="Concentracion" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="Dosis" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="Administracion" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="Nombre" Type="System.String" DbType="Text" CanBeNull="true" UpdateCheck="Never" />
+      <Column Name="Frecuencia" Type="System.String" DbType="Text" CanBeNull="true" UpdateCheck="Never" />
+      <Column Name="Motivo" Type="System.String" DbType="Text" CanBeNull="true" UpdateCheck="Never" />
+      <Column Name="FechaInicio" Type="System.DateTime" DbType="Date NOT NULL" CanBeNull="false" />
+      <Column Name="FechaFin" Type="System.DateTime" DbType="Date" CanBeNull="true" />
+      <Column Name="Detalle" Type="System.String" DbType="Text" CanBeNull="true" UpdateCheck="Never" />
+      <Association Name="TipoAdministracion_Medicamento" Member="TipoAdministracion" ThisKey="Administracion" OtherKey="Codigo" Type="TipoAdministracion" IsForeignKey="true" />
+      <Association Name="TipoConcentracion_Medicamento" Member="TipoConcentracion" ThisKey="Concentracion" OtherKey="Codigo" Type="TipoConcentracion" IsForeignKey="true" />
+      <Association Name="TipoDosis_Medicamento" Member="TipoDosis" ThisKey="Dosis" OtherKey="Codigo" Type="TipoDosis" IsForeignKey="true" />
+      <Association Name="Paciente_Medicamento" Member="Paciente1" ThisKey="Paciente" OtherKey="Email" Type="Paciente" IsForeignKey="true" />
+    </Type>
+  </Table>
+</Database>

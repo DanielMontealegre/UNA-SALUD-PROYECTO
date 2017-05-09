@@ -1,0 +1,179 @@
+﻿@model UNA_SALUD.Models.PesoModelo
+
+@{
+    ViewBag.Title = "Paciente";
+}
+
+@section  Scripts{
+    @Scripts.Render("~/bundles/jqueryval")
+    <script src="@Url.Content("~/Scripts/Chart.js")"></script>
+    <script src="@Url.Content("~/Scripts/PesosPacienteScript.js")"></script>
+}
+
+
+<h2>Paciente: @ViewBag.Paciente.NombreCompleto / <span class="text-muted" id="pacientePeso">@ViewBag.Paciente.Email</span></h2>
+
+<p>
+    <button type="button" class="btn btn-default" onclick="AbrilModalAgregarPeso();">Agregar Peso</button>
+</p>
+
+<hr />
+<div class="row">
+    <div class="col-md-6" id="chart-container">
+        <div class="pull-right">
+            <span class="icon-action" onclick="expandChart();"><i class="fa fa-expand"></i></span>
+            <span><i class="fa fa-compress hidden"></i></span>
+        </div>
+           <canvas id="chartPeso">
+           </canvas>
+    </div>
+    <div class="col-md-6" id="table-container">
+        <table class="table table-bordered table-hover" id="listarPesos">
+            <thead>
+                <tr>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Fecha)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Peso1)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Detalle)
+                    </th>
+                    <th>Acciones</th>
+                </tr>
+            </thead>
+        </table>
+    </div>
+</div>
+
+
+
+
+
+<div id="modalAgregarPeso" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+        <!-- Modal content-->
+        @using (Html.BeginForm("", "", FormMethod.Post, new { id = "formAgregarPeso" }))
+        {
+
+            @Html.Hidden("Codigo")
+            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">Agregar Peso</h4>
+                </div>
+                <div class="modal-body">
+                    <p>Digite la informacion del peso que desea agregar</p>
+                    <br />
+                    <div class="input-group col-md-12">
+                        <span class="input-group-addon" id="basic-addon1">
+                            @Html.LabelFor(model => model.Paciente)
+                        </span>
+                        @Html.EditorFor(model => model.Paciente, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.Paciente, "", new { @class = "text-danger" })
+                    </div>
+                    <br />
+                    <div class="form-group">
+                        @Html.LabelFor(m => m.Peso1)
+                        @Html.EditorFor(m => m.Peso1, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(m => m.Peso1, "", new { @class = "text-danger" })
+                    </div>
+                    <br />
+                    <div class="form-group">
+                        @Html.LabelFor(m => m.Fecha)
+                        @Html.EditorFor(m => m.Fecha, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(m => m.Fecha, "", new { @class = "text-danger" })
+                    </div>
+                    <br />
+                    <div class="input-group">
+                        <span class="input-group-addon" id="basic-addon1">
+                            @Html.LabelFor(model => model.Detalle)
+                        </span>
+                        @Html.EditorFor(model => model.Detalle, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.Detalle, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" onclick="guardarPeso()" class="btn btn-info"><i class="fa fa-plus"></i> Guardar</button>
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                </div>
+            </div>
+        }
+    </div>
+</div>
+
+
+
+
+<!-- Modal -->
+<div id="modalEditarPeso" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+        <!-- Modal content-->
+
+
+        @using (Html.BeginForm("", "", FormMethod.Post, new { id = "formEditarPeso" }))
+        {
+            @Html.Hidden("CodigoTR")
+            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">Editar Peso</h4>
+                </div>
+                <div class="modal-body">
+                    <p>Edite la informacion que desea del Peso</p>
+                    <br />
+                    <div class="input-group col-md-12">
+                        <span class="input-group-addon" id="basic-addon1">
+                            @Html.LabelFor(model => model.Paciente)
+                        </span>
+                        @Html.EditorFor(model => model.Paciente, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.Paciente, "", new { @class = "text-danger" })
+                    </div>
+                    <br />
+                    <div class="input-group date" data-provide="datepicker">
+                        <span class="input-group-addon" id="basic-addon1">
+                            @Html.LabelFor(model => model.Fecha)
+                        </span>
+                        @Html.EditorFor(model => model.Fecha, new { htmlAttributes = new {@class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.Fecha, "", new { @class = "text-danger" })
+                    </div>
+                    <br />
+                    <div class="input-group">
+                        <span class="input-group-addon" id="basic-addon1">
+                            @Html.LabelFor(model => model.Peso1)
+                        </span>
+                        @Html.EditorFor(model => model.Peso1, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.Peso1, "", new { @class = "text-danger" })
+                    </div>
+                    <br />
+                    <div class="input-group">
+                        <span class="input-group-addon" id="basic-addon1">
+                            @Html.LabelFor(model => model.Detalle)
+                        </span>
+                        @Html.EditorFor(model => model.Detalle, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.Detalle, "", new { @class = "text-danger" })
+                    </div>
+   
+                    <br />
+                    <div class="input-group col-md-12" style="display: none;">
+                        <span class="input-group-addon" id="basic-addon1">
+                            @Html.LabelFor(model => model.Codigo)
+                        </span>
+                        @Html.EditorFor(model => model.Codigo, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.Codigo, "", new { @class = "text-danger" })
+                    </div>
+
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" onclick="guardarEditarPeso();" class="btn btn-info"><i class="fa fa-plus"></i> Guardar</button>
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                    <button type="button" class="btn btn-danger" onclick="eliminarPeso();"><i class="fa fa-trash"></i>Eliminar</button>
+                </div>
+            </div>
+        }
+    </div>
+</div>

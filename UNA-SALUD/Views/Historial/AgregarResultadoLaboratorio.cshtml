@@ -1,0 +1,237 @@
+﻿@model UNA_SALUD.Models.ModelAgregarResultadoLaboratorioRegistro
+
+@{
+
+    ViewBag.Title = "Agregar Resultado Laboratorio";
+}
+
+@section  Scripts{
+    @Scripts.Render("~/bundles/jqueryval")
+    <script src="@Url.Content("~/Scripts/AgregarResultadoLaboratorio.js")"></script>
+}
+
+<h2>Resultados de Laboratorio <span id="pacienteResultadosLaboratorio" class="text-muted"> @ViewBag.Paciente.Email</span></h2>
+
+<h2>Agregar Resultado Laboratorio</h2>
+
+
+@using (Html.BeginForm("", "", FormMethod.Post, new { id = "formAgregarResultado" }))
+{
+
+
+    @Html.Hidden("CodigoLaboratorioResultado")
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal">
+        <h4>ResultadoLaboratorio</h4>
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.ResultadoLaboratorioRegistro.Nombre, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.ResultadoLaboratorioRegistro.Nombre, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.ResultadoLaboratorioRegistro.Nombre, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+
+        <div class="form-group">
+
+            @Html.LabelFor(model => model.ResultadoLaboratorioRegistro.Laboratorio, htmlAttributes: new { @class = "control-label  col-md-2" })
+            <div class="col-md-10">
+                <button type="button" id="botonAgregarLaboratorio" class="btn btn-primary" onclick="abrirModalEscogerLaboratorio(1);"><i id="iconoBotonAgregarLaboratorio" class="fa fa-plus"></i> Escoger Laboratorio</button>
+                @Html.EditorFor(model => model.ResultadoLaboratorioRegistro.Laboratorio, new { htmlAttributes = new { @class = "form-control", @disabled = true } })
+                @Html.ValidationMessageFor(model => model.ResultadoLaboratorioRegistro.Laboratorio, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+
+        <div class="form-group">
+            @Html.LabelFor(m => m.ResultadoLaboratorioRegistro.Marca, htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.DropDownListFor(m => m.ResultadoLaboratorioRegistro.Marca, // 1. Store selected value in Model.State;
+                                                                                 // when page is rendered after postback,
+                                                                                 // take selected value from Model.State.
+
+                                              // 2. Take list of values from Model.States
+                                              Model.ResultadoLaboratorioRegistro.TiposMarcas,
+
+                                              // 3. Text for the first 'default' option
+                                              "- Escoja un tipo de marca -",
+
+                                              //4. A class name to assign to <select> tag
+                                              new { @class = "form-control" })
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.ResultadoLaboratorioRegistro.Valor, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.ResultadoLaboratorioRegistro.Valor, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.ResultadoLaboratorioRegistro.Valor, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.ResultadoLaboratorioRegistro.Unidad, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.ResultadoLaboratorioRegistro.Unidad, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.ResultadoLaboratorioRegistro.Unidad, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+               <button type="button" onclick="guardarResultadoLaboratorio()" class="btn btn-info"><i class="fa fa-plus"></i> Guardar</button>
+            </div>
+        </div>
+    </div>
+}
+
+<!-- Modal Agregar -->
+<div id="modalAgregarLaboratorio" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+        <!-- Modal content-->
+        @using (Html.BeginForm("", "", FormMethod.Post, new { id = "formAgregarLaboratorio" }))
+        {
+
+            @Html.Hidden("CodigoLaboratorio")
+            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">Agregar Laboratorio</h4>
+                </div>
+                <div class="modal-body">
+                    <p>Digite la informacion del nuevo laboratorio a agregar.</p>
+                    <br />
+                    <div class="input-group col-md-12">
+                        <span class="input-group-addon" id="basic-addon1">
+                            @Html.LabelFor(model => model.laboratorioRegistro.Paciente)
+                        </span>
+                        @Html.EditorFor(model => model.laboratorioRegistro.Paciente, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.laboratorioRegistro.Paciente, "", new { @class = "text-danger" })
+                    </div>
+                    <br />
+                    <div class="input-group">
+                        <span class="input-group-addon" id="basic-addon1">
+                            @Html.LabelFor(model => model.laboratorioRegistro.Laboratorio)
+                        </span>
+                        @Html.EditorFor(model => model.laboratorioRegistro.Laboratorio, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.laboratorioRegistro.Laboratorio, "", new { @class = "text-danger" })
+                    </div>
+                    <br />
+                    <div class="input-group">
+                        <span class="input-group-addon" id="basic-addon1">
+                            @Html.LabelFor(model => model.laboratorioRegistro.NombrePanelLaboratorio)
+                        </span>
+                        @Html.EditorFor(model => model.laboratorioRegistro.NombrePanelLaboratorio, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.laboratorioRegistro.NombrePanelLaboratorio, "", new { @class = "text-danger" })
+                    </div>
+                    <br />
+                    <div class="input-group date" data-provide="datepicker">
+                        <span class="input-group-addon" id="basic-addon1">
+                            @Html.LabelFor(model => model.laboratorioRegistro.Fecha)
+                        </span>
+                        @Html.EditorFor(model => model.laboratorioRegistro.Fecha, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.laboratorioRegistro.Fecha, "", new { @class = "text-danger" })
+                    </div>
+                    <br />
+                    <div class="input-group">
+                        <span class="input-group-addon" id="basic-addon1">
+                            @Html.LabelFor(m => m.laboratorioRegistro.Estado, htmlAttributes: new { @class = "control-label" })
+                            @Html.DropDownListFor(m => m.laboratorioRegistro.Estado, // 1. Store selected value in Model.State;
+                                                                                     // when page is rendered after postback,
+                                                                                     // take selected value from Model.State.
+
+                                              // 2. Take list of values from Model.States
+                                              Model.laboratorioRegistro.Estados,
+
+                                              // 3. Text for the first 'default' option
+                                              "- Escoja un tipo de administracion -",
+
+                                              //4. A class name to assign to <select> tag
+                                              new { @class = "control-label" })
+                        </span>
+                    </div>
+
+                    <br />
+                    <div class="input-group">
+                        <span class="input-group-addon" id="basic-addon1">
+                            @Html.LabelFor(model => model.laboratorioRegistro.Solicitado)
+                        </span>
+                        @Html.EditorFor(model => model.laboratorioRegistro.Solicitado, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.laboratorioRegistro.Solicitado, "", new { @class = "text-danger" })
+                    </div>
+                    <br />
+                    <div class="input-group">
+                        <span class="input-group-addon" id="basic-addon1">
+                            @Html.LabelFor(model => model.laboratorioRegistro.Unidad)
+                        </span>
+                        @Html.EditorFor(model => model.laboratorioRegistro.Unidad, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.laboratorioRegistro.Unidad, "", new { @class = "text-danger" })
+                    </div>
+                    <br />
+                    <div class="modal-footer">
+                        <button type="button" onclick="guardarLaboratorio()" class="btn btn-info"><i class="fa fa-plus"></i> Guardar</button>
+                        <button type="button" class="btn btn-default" onclick="volverAlistarLaboratorios();">Atras</button>
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+</div>
+ 
+<div class="modal fade" id="modalListarLaboratorios" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog" style="width: 95%">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4>Laboratorios a @ViewBag.Paciente.Email</h4>
+                <button type="button" class="btn btn-primary" onclick="abrirModalAgregarLaboratorio()" ><i class="fa fa-plus-square"> </i>Agregar Laboratorio</button>
+            </div>
+            <div class="modal-body">
+                        <table id="listarLaboratorios" class="table table-striped table-bordered" cellspacing="0" width="100%">
+                            <thead>
+                                <tr>
+                                    <th>
+                                        Codigo
+                                    </th>
+                                    <th>
+                                        Laboratorio
+                                    </th>
+                                    <th>
+                                        Estado
+                                    </th>
+                                    <th>
+                                        Nombre de Panel del Laboratorio
+                                    </th>
+                                    <th>
+                                        Solicitado
+                                    </th>
+                                    <th>
+                                        Secuencia
+                                    </th>
+                                    <th>
+                                        Fecha
+                                    </th>
+                                    <th>
+                                        Acciones
+                                    </th>
+                                    
+                                </tr>
+                            </thead>
+                        </table>          
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+        <div>
+            <a href="/Historial/ResutaldosLaboratorio?id=@ViewBag.Paciente.Email">Volver a los resultados de laboratorio</a>
+        </div>
