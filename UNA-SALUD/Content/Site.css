@@ -23,10 +23,9 @@ textarea {
     max-width: 280px;
 }
 
-.chart-container {
-    height: 400px;
-    transition: all 2s;
-}
+
+
+
 
 canvas {
     width: 100%;
@@ -46,4 +45,91 @@ canvas {
 .icon-action:hover > i{
     font-size: 20px;
     color: #ccc;
+}
+
+
+
+.md-padding {
+    padding: 10px;
+}
+
+.icon-wrapper {
+    color: white;
+    background-color: #336699;
+    width: 36px;
+    height: 36px;
+    font-size: 20px;
+    border-radius: 23px;
+    display: flex;
+    align-items: center;
+justify-content: center; /* align horizontal */
+cursor: pointer;
+  box-shadow: 0px 2px 5px #666;
+
+}
+
+.icon-wrapper:hover {
+    opacity: 0.8;
+}
+
+
+#table-container table {
+    width: 100% !important;
+}
+
+ #chart-container canvas {
+     max-height: 600px;
+ }
+
+
+[data-tooltip] {
+  position: relative;
+  z-index: 2;
+  cursor: pointer;
+}
+
+/* Hide the tooltip content by default */
+[data-tooltip]:before,
+[data-tooltip]:after {
+  visibility: hidden;
+  -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=0)";
+  filter: progid: DXImageTransform.Microsoft.Alpha(Opacity=0);
+  opacity: 0;
+  pointer-events: none;
+}
+
+/* Position tooltip above the element */
+[data-tooltip]:before {
+  position: absolute;
+  top: 80%;
+  left: 50%;
+  margin-top: 5px;
+  margin-left: -45px;
+  padding: 7px;
+  width: 95px;
+  -webkit-border-radius: 3px;
+  -moz-border-radius: 3px;
+  border-radius: 3px;
+  background-color: #000;
+  background-color: hsla(0, 0%, 20%, 0.9);
+  color: #fff;
+  content: attr(data-tooltip);
+  text-align: center;
+  font-size: 11px;
+  line-height: 1.2;
+}
+
+
+/* Show tooltip content on hover */
+[data-tooltip]:hover:before,
+[data-tooltip]:hover:after {
+  visibility: visible;
+  -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=100)";
+  filter: progid: DXImageTransform.Microsoft.Alpha(Opacity=100);
+  opacity: 1;
+}
+
+.input-group-addon {
+background-color:#88A0B9;
+color: white;
 }

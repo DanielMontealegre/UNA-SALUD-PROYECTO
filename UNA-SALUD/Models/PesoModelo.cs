@@ -15,13 +15,14 @@ namespace UNA_SALUD.Models
         public string Paciente { get; set; }
 
         [Required]
-        [Display (Name="Peso")]
+        [Display (Name="Peso(Kg)")]
         public double Peso1 { get; set; }
 
         [Required]
         [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:dd/MM/yyyy}")]
         public DateTime Fecha { get; set; }
 
+        [DataType(DataType.MultilineText)]
         public string Detalle { get; set; }
 
         public PesoModelo(Peso peso) {

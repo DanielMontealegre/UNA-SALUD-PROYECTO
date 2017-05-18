@@ -33,3 +33,40 @@ function mensajeOk(titulo, texto, funcion) {
 
           });
 }
+
+function validatorDateFormat() {
+    $.validator.methods.date = function (value, element) {
+        return this.optional(element) || Date.parseExact(value,'d/M/yyyy') !== null;
+    };
+}
+
+
+function redondeoHaciaArriba(a) {
+    var math = Math.round(a);
+    if (math % 10 == 0)
+        return math + 5;
+    return math + (10 - a % 10);
+}
+
+function redondeoHaciaAbajo(a) {
+    var math = Math.round(a);
+    if (math % 10 == 0)
+        return math - 5;
+    return math - (a % 10);
+}
+
+function calculaMaximo(array) {
+    let max = array.reduce(function (a, b) {
+        return Math.max(a, b);
+    });
+
+    return redondeoHaciaArriba(max);
+}
+
+function calculaMinimo(array) {
+    let min = array.reduce(function (a, b) {
+        return Math.min(a, b);
+    });
+
+    return redondeoHaciaAbajo(min);
+}
