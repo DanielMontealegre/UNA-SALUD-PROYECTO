@@ -610,11 +610,60 @@ namespace UNA_SALUD.Controllers
 
         /////////////////////////////////// FIN MEDICAMENTOS /////////////////////////////////////////////
 
+        //////////////////////////////////// PROCEDIMIENTOS //////////////////////////////////////////////////
+
+        public ActionResult Procedimientos(String id)
+        {
+            var pacienteDB = pacientes.Obtener(id);
+            var pacienteModelo = new PacienteRegistro(pacienteDB);
+            ViewBag.Paciente = pacienteModelo;
+            return View();
+        }
+
+        public JsonResult GetProcedimientos(string id)
+        {
+            if (id != null)
+            {
+                var listaProcedimientosBD = procedimientos.Obtener(id);
+                var listaProcedimientosModelos = listaProcedimientosBD.Select(x => new ProcedimientoRegistro(x));
+                return Json(listaProcedimientosModelos, JsonRequestBehavior.AllowGet);
+            }
+            return Json(true);
+        }
+
+        public JsonResult AgregarProcedimiento(Procedimiento procedimiento)
+        {
+            var procedimientoDB = procedimientos.Agregar(procedimiento);
+            return Json(new { Resultado = true, Procedimiento = new ProcedimientoRegistro(procedimientoDB) });
+        }
+
+        public JsonResult ObtenerProcedimiento(int codigo)
+        {
+            Procedimiento procedimientoDB = procedimientos.ObtenerProcedimiento(codigo);
+            return Json(new ProcedimientoRegistro(procedimientoDB), JsonRequestBehavior.AllowGet);
+        }
+
+        [HttpPost]
+        public JsonResult EditarProcedimiento(Procedimiento procedimiento)
+        {
+            var procedimientoEditadoDb = procedimientos.EditarProcedimiento(procedimiento);
+            return Json(new { Resultado = true, Procedimiento = new ProcedimientoRegistro(procedimientoEditadoDb) });
+        }
+
+        public JsonResult RemoverProcedimiento(int codigo)
+        {
+            procedimientos.Remover(codigo);
+            return Json(true);
+        }
+
+        /////////////////////////////////// FIN PROCEDIMIENTOS /////////////////////////////////////////////
+
         ConjuntoAlergias alergias = new ConjuntoAlergias();
         ConjuntoAfecciones afecciones = new ConjuntoAfecciones();
         ConjuntoPacientes pacientes = new ConjuntoPacientes();
         ConjuntoVacunas vacunas = new ConjuntoVacunas();
         ConjuntoResultadosLaboratorio resultadosLaboratorio = new ConjuntoResultadosLaboratorio();
         ConjuntoMedicamentos medicamentos = new ConjuntoMedicamentos();
+        ConjuntoProcedimientos procedimientos = new ConjuntoProcedimientos();
     }
 }

@@ -432,6 +432,7 @@
     <Content Include="Scripts\HistorialAfeccionesScript.js" />
     <Content Include="Scripts\HistorialAlergias.js" />
     <Content Include="Scripts\HistorialMedicamentosScript.js" />
+    <Content Include="Scripts\HistorialProcedimientosScript.js" />
     <Content Include="Scripts\HistorialResultadosLaboratorio.js" />
     <Content Include="Scripts\HistorialVacunasScript.js" />
     <Content Include="Scripts\jquery-3.1.1.js" />
@@ -486,6 +487,7 @@
     <Content Include="Views\Historial\AgregarResultadoLaboratorio.cshtml" />
     <Content Include="Views\Historial\ResutaldosLaboratorio.cshtml" />
     <Content Include="Views\Historial\Medicamentos.cshtml" />
+    <Content Include="Views\Historial\Procedimientos.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

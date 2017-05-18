@@ -259,4 +259,53 @@ namespace UNA_SALUD.Models
     }
 
     //////////////////// Fin de Medicamentos
+
+    /////////////////////////////// Procedimientos
+
+    public class ProcedimientoRegistro
+    {
+        public ProcedimientoRegistro()
+        {
+
+        }
+
+        [Required]
+        [DataType(DataType.EmailAddress)]
+        [StringLength(80)]
+        public string Paciente { get; set; }
+
+
+        public long Codigo { get; set; }
+
+        [Display(Name = "Procedimiento")]
+        public string Procedimiento1 { get; set; }
+
+        [Display(Name = "Ubicación Anatómica")]
+        public string UbicacionAnatomica { get; set; }
+
+
+        [Required]
+        [DataType(DataType.Date)]
+        [Display(Name = "Fecha")]
+        public DateTime Fecha { get; set; }
+
+        [Required]
+        public string Motivo { get; set; }
+
+        [Display(Name = "Notas")]
+        public string Detalle { get; set; }
+
+        public ProcedimientoRegistro(Procedimiento proced)
+        {
+            Paciente = proced.Paciente;
+            Codigo = proced.Codigo;
+            Procedimiento1 = proced.Procedimiento1;
+            UbicacionAnatomica = proced.UbicacionAnatomica;
+            Fecha = proced.Fecha;
+            Motivo = proced.Motivo;
+            Detalle = proced.Detalle;
+        }
+    }
+
+    //////////////////// Fin de Procedimientos
 }
