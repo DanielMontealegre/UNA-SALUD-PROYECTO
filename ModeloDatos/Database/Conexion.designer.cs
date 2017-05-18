@@ -117,7 +117,7 @@ namespace ModeloDatos.Database
     #endregion
 		
 		public ConexionDataContext() : 
-				base(global::ModeloDatos.Properties.Settings.Default.UNA_SALUDConnectionString1, mappingSource)
+				base(global::ModeloDatos.Properties.Settings.Default.UNA_SALUDConnectionString, mappingSource)
 		{
 			OnCreated();
 		}

@@ -51,6 +51,7 @@
     </Compile>
     <Compile Include="Modelo\ConjuntoAfecciones.cs" />
     <Compile Include="Modelo\ConjuntoAlergias.cs" />
+    <Compile Include="Modelo\ConjuntoAlturas.cs" />
     <Compile Include="Modelo\ConjuntoMedicamentos.cs" />
     <Compile Include="Modelo\ConjuntoPacientes.cs" />
     <Compile Include="Modelo\ConjuntoPesos.cs" />

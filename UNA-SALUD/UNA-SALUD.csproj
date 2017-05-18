@@ -147,6 +147,7 @@
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
+    <Compile Include="Controllers\AlturasController.cs" />
     <Compile Include="Controllers\HistorialController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\PacientesController.cs" />
@@ -154,6 +155,7 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Models\AlturaModelo.cs" />
     <Compile Include="Models\HistorialModelos.cs" />
     <Compile Include="Models\PacientesModelos.cs" />
     <Compile Include="Models\PesoModelo.cs" />
@@ -349,6 +351,7 @@
     <Content Include="Content\datetimepicker4\less\bootstrap-datetimepicker-build.less" />
     <None Include="Scripts\jquery-3.1.1.intellisense.js" />
     <Content Include="Scripts\AgregarResultadoLaboratorio.js" />
+    <Content Include="Scripts\AlturasScript\AlturasPacienteScript.js" />
     <Content Include="Scripts\bootstrap-datetimepicker.min.js" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
@@ -488,6 +491,7 @@
     <Content Include="Views\Historial\ResutaldosLaboratorio.cshtml" />
     <Content Include="Views\Historial\Medicamentos.cshtml" />
     <Content Include="Views\Historial\Procedimientos.cshtml" />
+    <Content Include="Views\Alturas\Paciente.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
