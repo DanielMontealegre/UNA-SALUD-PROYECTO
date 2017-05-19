@@ -1,0 +1,175 @@
+﻿@model UNA_SALUD.Models.AlturaModelo
+
+@{
+    ViewBag.Title = "Paciente";
+}
+
+@section  Scripts{
+    @Scripts.Render("~/bundles/jqueryval")
+    <script src="@Url.Content("~/Scripts/Chart.js")"></script>
+    <script src="@Url.Content("~/Scripts/AlturasScript/AlturasPacienteScript.js")"></script>
+}
+
+<h5><strong>Paciente:</strong> @ViewBag.Paciente.NombreCompleto </h5>
+<h5><strong>Email:</strong> <span class="text-muted" id="pacienteAltura">@ViewBag.Paciente.Email</span></h5>
+<h5><strong>Altura Actual:</strong><span class="text-muted" id="alturaActual"></span></h5>
+<hr />
+<div class="pull-right icon-wrapper" id="tipoVista" onclick="toggleVisibility();" data-tooltip="Vista de gráfico"> <i class="fa fa-line-chart" id="iconView"></i></div>
+<p>
+    <button type="button" class="btn btn-default" onclick="AbrilModalAgregarAltura();">Agregar Altura</button>
+</p>
+<div class="row">
+    <div id="chart-container" class="col-md-12">
+        <canvas id="chartAltura"></canvas>
+    </div>
+
+    <div class="hidden col-md-12" id="table-container">
+        <table class="table table-bordered table-hover" id="listarAlturas">
+            <thead>
+                <tr>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Fecha)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Altura1)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Detalle)
+                    </th>
+                    <th>Acciones</th>
+                </tr>
+            </thead>
+        </table>
+    </div>
+</div>
+
+
+
+
+
+
+<div id="modalAgregarAltura" class="modal fadeInUp niceModal" role="dialog">
+    <<div class="modal-dialog" role="document">
+    <!-- Modal content-->
+    @using (Html.BeginForm("", "", FormMethod.Post, new { id = "formAgregarAltura" }))
+    {
+        @Html.Hidden("Codigo")
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        <div class="modal-content">
+            <div class="modal-header">
+                <i class="niceModal-header-icon fa fa-plus"></i>
+                <h2 class="niceModal-header-title">Agregar Altura</h2>
+                <p class="niceModal-header-subtitle">Digite la informacion de la altura que desea agregar</p>
+                <a href="javascript:void(0)" class="niceModal-button niceModal-button-close" data-dismiss="modal"></a>
+            </div>
+            <div class="modal-body niceModal-content">
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.Paciente)
+                            @Html.EditorFor(model => model.Paciente, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.Paciente, "", new { @class = "text-danger" })
+                        </div>
+                        <div class="form-group">
+                            @Html.LabelFor(m => m.Altura1)
+                            @Html.EditorFor(m => m.Altura1, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(m => m.Altura1, "", new { @class = "text-danger" })
+                        </div>
+                        <div class="form-group">
+                            @Html.LabelFor(m => m.Fecha)
+                            @Html.EditorFor(m => m.Fecha, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(m => m.Fecha, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.Detalle)
+                            @Html.EditorFor(model => model.Detalle, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.Detalle, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <div class="footer">
+                    <button type="button" onclick="guardarAltura()" class="btn-info"><i class="fa fa-plus"></i> Guardar</button>
+                    <button type="button" class="btn-danger" data-dismiss="modal">Cancel</button>
+                </div>
+            </div>
+        </div>
+    }
+</div>
+
+</div>
+
+
+
+
+<!-- Modal -->
+<div id="modalEditarAltura" class="modal niceModal fadeInUp" role="dialog">
+    <div class="modal-dialog">
+        <!-- Modal content-->
+        @using (Html.BeginForm("", "", FormMethod.Post, new { id = "formEditarAltura" }))
+        {
+            @Html.Hidden("CodigoTR")
+            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+            <div class="modal-content">
+                <div class="modal-header">
+                    <i class="niceModal-header-icon fa fa-edit"></i>
+                    <h2 class="niceModal-header-title">Editar Altura</h2>
+                    <p class="niceModal-header-subtitle">Digite la informacion de la altura que desea editar</p>
+                    <a href="javascript:void(0)" class="niceModal-button niceModal-button-close" data-dismiss="modal"></a>
+                </div>
+                <div class="modal-body niceModal-content">
+                    <div class="input-group col-md-12">
+                        <span class="input-group-addon" id="basic-addon1">
+                            @Html.LabelFor(model => model.Paciente)
+                        </span>
+                        @Html.EditorFor(model => model.Paciente, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.Paciente, "", new { @class = "text-danger" })
+                    </div>
+                    <br />
+                    <div class="input-group">
+                        <span class="input-group-addon" id="basic-addon1">
+                            @Html.LabelFor(model => model.Altura1)
+                        </span>
+                        @Html.EditorFor(model => model.Altura1, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.Altura1, "", new { @class = "text-danger" })
+                    </div>
+                    <br />
+                    <div class="input-group date" data-provide="datepicker">
+                        <span class="input-group-addon" id="basic-addon1">
+                            @Html.LabelFor(model => model.Fecha)
+                        </span>
+                        @Html.EditorFor(model => model.Fecha, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.Fecha, "", new { @class = "text-danger" })
+                    </div>
+                    <br />
+                    <div class="input-group">
+                        <span class="input-group-addon" id="basic-addon1">
+                            @Html.LabelFor(model => model.Detalle)
+                        </span>
+                        @Html.EditorFor(model => model.Detalle, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.Detalle, "", new { @class = "text-danger" })
+                    </div>
+
+                    <br />
+                    <div class="input-group col-md-12" style="display: none;">
+                        <span class="input-group-addon" id="basic-addon1">
+                            @Html.LabelFor(model => model.Codigo)
+                        </span>
+                        @Html.EditorFor(model => model.Codigo, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.Codigo, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <div class="footer-3">
+                        <button type="button" onclick="guardarEditarAltura();" class="btn-info"><i class="fa fa-plus"></i> Guardar</button>
+                        <button type="button" class="btn-warning" data-dismiss="modal">Cancel</button>
+                        <button type="button" class="btn-danger" onclick="eliminarAltura();"><i class="fa fa-trash"></i>Eliminar</button>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+</div>

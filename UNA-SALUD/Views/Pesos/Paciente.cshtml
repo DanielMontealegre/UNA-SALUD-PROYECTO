@@ -16,6 +16,7 @@
 <h5><strong>Peso Actual:</strong><span class="text-muted" id="pesoActual"></span></h5>
 <hr />
 <div class="pull-right icon-wrapper" id="tipoVista" onclick="toggleVisibility();" data-tooltip="Vista de gráfico"> <i class="fa fa-line-chart"   id="iconView"></i></div>
+
 <p>
    <button type="button" class="btn btn-default"  onclick="AbrilModalAgregarPeso();">Agregar Peso</button>
 </p>
@@ -26,6 +27,7 @@
     <div id="chart-container" class="col-md-12">
         <canvas id="chartPeso"></canvas>
     </div>
+
     <div class="hidden col-md-12" id="table-container">
         <table class="table table-bordered table-hover" id="listarPesos">
             <thead>
@@ -52,7 +54,6 @@
         <!-- Modal content-->
         @using (Html.BeginForm("", "", FormMethod.Post, new { id = "formAgregarPeso" }))
         {
-
             @Html.Hidden("Codigo")
             @Html.ValidationSummary(true, "", new { @class = "text-danger" })
             <div class="modal-content">
