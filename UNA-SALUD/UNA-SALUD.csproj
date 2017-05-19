@@ -151,12 +151,14 @@
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\PacientesController.cs" />
     <Compile Include="Controllers\PesosController.cs" />
+    <Compile Include="Controllers\PresionArterialController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\HistorialModelos.cs" />
     <Compile Include="Models\PacientesModelos.cs" />
     <Compile Include="Models\PesoModelo.cs" />
+    <Compile Include="Models\PresionArterialModelo.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -164,7 +166,8 @@
     <Content Include="Content\bootstrap-theme.min.css" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
-    <Content Include="Content\bootswatch.min.css" />
+    <Content Include="Content\bootswatch.css" />
+    <Content Include="Content\cmn.css" />
     <Content Include="Content\DataTables\css\autoFill.bootstrap.css" />
     <Content Include="Content\DataTables\css\autoFill.bootstrap.min.css" />
     <Content Include="Content\DataTables\css\autoFill.bootstrap4.css" />
@@ -452,6 +455,7 @@
     <Content Include="Scripts\PacientesAgregarScript.js" />
     <Content Include="Scripts\PacientesIndexScript.js" />
     <Content Include="Scripts\PesosPacienteScript.js" />
+    <Content Include="Scripts\PresionArterial.js" />
     <Content Include="Scripts\respond.js" />
     <Content Include="Scripts\respond.matchmedia.addListener.js" />
     <Content Include="Scripts\respond.matchmedia.addListener.min.js" />
@@ -488,6 +492,7 @@
     <Content Include="Views\Historial\ResutaldosLaboratorio.cshtml" />
     <Content Include="Views\Historial\Medicamentos.cshtml" />
     <Content Include="Views\Historial\Procedimientos.cshtml" />
+    <Content Include="Views\PresionArterial\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
