@@ -55,6 +55,7 @@
     <Compile Include="Modelo\ConjuntoMedicamentos.cs" />
     <Compile Include="Modelo\ConjuntoPacientes.cs" />
     <Compile Include="Modelo\ConjuntoPesos.cs" />
+    <Compile Include="Modelo\ConjuntoPresionesArteriales.cs" />
     <Compile Include="Modelo\ConjuntoProcedimientos.cs" />
     <Compile Include="Modelo\ConjuntoResultadosLaboratorio.cs" />
     <Compile Include="Modelo\ConjuntoSeguros.cs" />
