@@ -144,6 +144,7 @@ namespace UNA_SALUD.Models
 
         public IEnumerable<SelectListItem> TiposMarcas { get; set; }
 
+
     }
     public class LaboratorioRegistro
     {
