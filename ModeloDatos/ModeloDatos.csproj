@@ -57,6 +57,7 @@
     <Compile Include="Modelo\ConjuntoPesos.cs" />
     <Compile Include="Modelo\ConjuntoProcedimientos.cs" />
     <Compile Include="Modelo\ConjuntoResultadosLaboratorio.cs" />
+    <Compile Include="Modelo\ConjuntoSeguros.cs" />
     <Compile Include="Modelo\ConjuntoVacunas.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Properties\Settings.Designer.cs">

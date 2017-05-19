@@ -315,7 +315,7 @@ function eliminarAltura(codigo) {
                     if (data) {
                         swal({
                             title: "Exito!",
-                            text: "La altura sera eliminado de forma permanente!",
+                            text: "La altura fue eliminada de forma permanente!",
                             type: "success",
                             confirmButtonText: 'Ok',
                         },

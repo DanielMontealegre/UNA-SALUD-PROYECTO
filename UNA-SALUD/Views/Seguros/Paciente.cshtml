@@ -1,0 +1,213 @@
+﻿@model UNA_SALUD.Models.SeguroModelo
+@using UNA_SALUD.Models
+@{
+    ViewBag.Title = "Seguros";
+}
+
+@section  Scripts{
+    @Scripts.Render("~/bundles/jqueryval")
+    <script src="@Url.Content("~/Scripts/Chart.js")"></script>
+    <script src="@Url.Content("~/Scripts/SegurosScript/SegurosPacienteScript.js")"></script>
+}
+
+<h6><strong>Seguros</strong></h6>
+<h5><strong>Paciente:</strong> @ViewBag.Paciente.NombreCompleto </h5>
+<h5><strong>Email:</strong> <span class="text-muted" id="pacienteSeguro">@ViewBag.Paciente.Email</span></h5>
+<hr />
+<p>
+    <button type="button" class="btn btn-default" onclick="AbrilModalAgregarSeguro();">Agregar Seguro</button>
+</p>
+<table  class="table table-bordered table-hover" id="listarSeguros">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Codigo)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Cobertura)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Principal)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.IdentificadorAbonado)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.FechaInicio)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.FechaFin)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Detalle)
+            </th>
+            <th>
+                Acciones
+            </th>
+        </tr>
+    </thead>
+
+</table>
+
+
+<div id="modalAgregarSeguro" class="modal fadeInUp niceModal" role="dialog">
+    <<div class="modal-dialog" role="document">
+        <!-- Modal content-->
+       @using (Html.BeginForm("", "", FormMethod.Post, new { id = "formAgregarSeguro" })) { 
+        @Html.Hidden("Codigo")
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        <div class="modal-content">
+            <div class="modal-header">
+                <i class="niceModal-header-icon fa fa-plus"></i>
+                <h2 class="niceModal-header-title">Agregar Seguro</h2>
+                <p class="niceModal-header-subtitle">Digite la informacion del seguro que desea agregar</p>
+                <a href="javascript:void(0)" class="niceModal-button niceModal-button-close" data-dismiss="modal"></a>
+            </div>
+            <div class="modal-body niceModal-content">
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.Paciente)
+                            @Html.EditorFor(model => model.Paciente, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.Paciente, "", new { @class = "text-danger" })
+                        </div>
+                        <div class="form-group">
+                            @Html.LabelFor(m => m.Cobertura, htmlAttributes: new { @class = "control-label" })
+                            @Html.DropDownListFor(m => m.Cobertura, // 1. Store selected value in Model.State;
+                                                                    // when page is rendered after postback,
+                                                                    // take selected value from Model.State.
+
+                                              // 2. Take list of values from Model.States
+                                              Model.Coberturas,
+
+                                              // 3. Text for the first 'default' option
+                                              "- Escoja un tipo de administracion -",
+
+                                              //4. A class name to assign to <select> tag
+                                              new { @class = "control-label" })
+                        </div>
+                        <div class="form-group">
+                            @Html.LabelFor(m => m.FechaInicio)
+                            @Html.EditorFor(m => m.FechaInicio, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(m => m.FechaInicio, "", new { @class = "text-danger" })
+                        </div>
+                        <div class="form-group">
+                            @Html.LabelFor(m => m.FechaFin)
+                            @Html.EditorFor(m => m.FechaFin, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(m => m.FechaFin, "", new { @class = "text-danger" })
+                        </div>
+                        <div class="form-group">
+                            @Html.LabelFor(m => m.Principal)
+                            @Html.EditorFor(m => m.Principal, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(m => m.Principal, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.IdentificadorAbonado)
+                            @Html.EditorFor(model => model.IdentificadorAbonado, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.IdentificadorAbonado, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.Detalle)
+                            @Html.EditorFor(model => model.Detalle, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.Detalle, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <div class="footer">
+                    <button type="button" onclick="guardarSeguro()" class="btn-info"><i class="fa fa-plus"></i> Guardar</button>
+                    <button type="button" class="btn-danger" data-dismiss="modal">Cancel</button>
+                </div>
+            </div>
+        </div>
+        }
+    </div>
+
+</div>
+
+<div id="modalEditarSeguro" class="modal fadeInUp niceModal" role="dialog">
+    <<div class="modal-dialog" role="document">
+        <!-- Modal content-->
+        @using (Html.BeginForm("", "", FormMethod.Post, new { id = "formEditarSeguro" }))
+        {
+            @Html.Hidden("Codigo")
+            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+            <div class="modal-content">
+                <div class="modal-header">
+                    <i class="niceModal-header-icon fa fa-edit"></i>
+                    <h2 class="niceModal-header-title">Editar Seguro</h2>
+                    <p class="niceModal-header-subtitle">Digite la informacion del seguro que desea editar</p>
+                    <a href="javascript:void(0)" class="niceModal-button niceModal-button-close" data-dismiss="modal"></a>
+                </div>
+                <div class="modal-body niceModal-content">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.Paciente)
+                                @Html.EditorFor(model => model.Paciente, new { htmlAttributes = new { @class = "form-control" } })
+                                @Html.ValidationMessageFor(model => model.Paciente, "", new { @class = "text-danger" })
+                            </div>
+                            <div class="form-group">
+                                @Html.LabelFor(m => m.Cobertura, htmlAttributes: new { @class = "control-label" })
+                                @Html.DropDownListFor(m => m.Cobertura, // 1. Store selected value in Model.State;
+                                                                    // when page is rendered after postback,
+                                                                    // take selected value from Model.State.
+
+                                              // 2. Take list of values from Model.States
+                                              Model.Coberturas,
+
+                                              // 3. Text for the first 'default' option
+                                              "- Escoja un tipo de administracion -",
+
+                                              //4. A class name to assign to <select> tag
+                                              new { @class = "control-label" })
+                            </div>
+                            <div class="form-group">
+                                @Html.LabelFor(m => m.FechaInicio)
+                                @Html.EditorFor(m => m.FechaInicio, new { htmlAttributes = new { @class = "form-control" } })
+                                @Html.ValidationMessageFor(m => m.FechaInicio, "", new { @class = "text-danger" })
+                            </div>
+                            <div class="form-group">
+                                @Html.LabelFor(m => m.FechaFin)
+                                @Html.EditorFor(m => m.FechaFin, new { htmlAttributes = new { @class = "form-control" } })
+                                @Html.ValidationMessageFor(m => m.FechaFin, "", new { @class = "text-danger" })
+                            </div>
+                            <div class="form-group">
+                                @Html.LabelFor(m => m.Principal)
+                                @Html.EditorFor(m => m.Principal, new { htmlAttributes = new { @class = "form-control" } })
+                                @Html.ValidationMessageFor(m => m.Principal, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.IdentificadorAbonado)
+                                @Html.EditorFor(model => model.IdentificadorAbonado, new { htmlAttributes = new { @class = "form-control" } })
+                                @Html.ValidationMessageFor(model => model.IdentificadorAbonado, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.Detalle)
+                                @Html.EditorFor(model => model.Detalle, new { htmlAttributes = new { @class = "form-control" } })
+                                @Html.ValidationMessageFor(model => model.Detalle, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <div class="footer">
+                        <button type="button" onclick="guardarEditarSeguro()" class="btn-info"><i class="fa fa-plus"></i> Guardar</button>
+                        <button type="button" class="btn-danger" data-dismiss="modal">Cancel</button>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+
+</div>
+

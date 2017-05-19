@@ -20,6 +20,12 @@
     return d;
 }
 
+function toDate(selector) {
+    var from = $(selector).val().split("/");
+    return new Date(from[2], from[1], from[0]).toISOString();
+}
+
+
 
 function mensajeOk(titulo, texto, funcion) {
     swal({

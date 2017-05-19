@@ -152,6 +152,7 @@
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\PacientesController.cs" />
     <Compile Include="Controllers\PesosController.cs" />
+    <Compile Include="Controllers\SegurosController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -159,6 +160,7 @@
     <Compile Include="Models\HistorialModelos.cs" />
     <Compile Include="Models\PacientesModelos.cs" />
     <Compile Include="Models\PesoModelo.cs" />
+    <Compile Include="Models\SeguroModelo.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -459,6 +461,7 @@
     <Content Include="Scripts\respond.matchmedia.addListener.js" />
     <Content Include="Scripts\respond.matchmedia.addListener.min.js" />
     <Content Include="Scripts\respond.min.js" />
+    <Content Include="Scripts\SegurosScript\SegurosPacienteScript.js" />
     <Content Include="Scripts\sweetalert-dev.js" />
     <Content Include="Scripts\sweetalert.min.js" />
     <Content Include="Scripts\Utilidades.js" />
@@ -492,6 +495,7 @@
     <Content Include="Views\Historial\Medicamentos.cshtml" />
     <Content Include="Views\Historial\Procedimientos.cshtml" />
     <Content Include="Views\Alturas\Paciente.cshtml" />
+    <Content Include="Views\Seguros\Paciente.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
